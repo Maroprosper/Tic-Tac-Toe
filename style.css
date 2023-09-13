@@ -1,0 +1,41 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-between;
+}
+.row1{
+    grid-row: 1/2;
+}
+.row2{
+    grid-row: 2/3;
+}
+.row3{
+    grid-row: 3/4;
+}
+.col1{
+    grid-column: 1/2;
+}
+.col2{
+    grid-column: 2/3;
+}
+.col3{
+    grid-column: 3/4;
+}
+main{
+    align-self: center;
+}
+section{
+    display: grid;
+    grid-template-columns:1fr 1fr 1fr;
+    grid-template-rows:1fr 1fr 1fr;
+}
+div{
+    height: 100px;
+    width: 100px;
+    border: 2px solid black;
+}
