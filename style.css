@@ -7,6 +7,7 @@ body{
     flex-direction: column;
     height: 100vh;
     justify-content: space-between;
+    align-items: center;
 }
 .row1{
     grid-row: 1/2;
@@ -38,4 +39,13 @@ div{
     height: 100px;
     width: 100px;
     border: 2px solid black;
+}
+.marker{
+    height: 40px;
+    width: 60px;
+    display: inline-block;
+}
+.option{
+    width: 140px;
+    height: 60px;
 }
