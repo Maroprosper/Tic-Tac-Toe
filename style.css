@@ -35,7 +35,7 @@ section{
     grid-template-columns:1fr 1fr 1fr;
     grid-template-rows:1fr 1fr 1fr;
 }
-div{
+.box{
     height: 100px;
     width: 100px;
     border: 2px solid black;
