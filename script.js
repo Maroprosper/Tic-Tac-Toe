@@ -1,7 +1,7 @@
 const gamePlay = (function(){
-    function test() {
-        alert("it's done");
-    }
+    alert("Click on the marker of your choice to start game");
+                                                      
+   
     
     
     
@@ -23,13 +23,14 @@ const gamePlay = (function(){
                    userSign = 'O';
                    computerSign = 'X';
              }
-             const username = prompt('Player one: please enter your name', ' Player 1');
-             const computerName = prompt('Player two: please enter your name', ' Player two')
+             const username = prompt('Player one: please enter your name', ' Player One');
+             const computerName = prompt('Player two: please enter your name', ' Player Two')
              user = player(username, userSign);
              computer = player(computerName, computerSign);
              gameBoard.fillGameboard();
-             displayController.display();                                                         
-    }
+             displayController.display();
+             alert("Click on the box of your choice to place marker");
+             }
     let userSign = (()=> {
         marker.forEach(item => item.addEventListener('click', chooseSign));  
     })();
@@ -59,8 +60,9 @@ const gamePlay = (function(){
         const box = document.querySelectorAll('.box');
         const screenboard = document.querySelector('.display');
         let index = 0;
+        let winner = '';
         const display = function(){
-        screenboard.textContent = `It is ${user.name}'s turn`;
+        screenboard.textContent = `It is ${user.name}'s(${user.sign}) turn`;
         box.forEach(item => item.addEventListener('click', () => {
         if(item.textContent === ''){
             if(gameBoard.Gameboard[index] === undefined){
@@ -71,23 +73,55 @@ const gamePlay = (function(){
                  index++;
             }
            }            
-             if(gameBoard.Gameboard[index] === user.sign){
-             screenboard.textContent = `computers ${computer.name}'s turn`;
+             if(gameBoard.Gameboard[index-1] === user.sign){
+             screenboard.textContent = `It is ${computer.name}'s(${computer.sign}) turn`;
              }
-             if(gameBoard.Gameboard[index] === computer.sign){
-             screenboard.textContent = `It is ${user.name}'s turn`;
+             if(gameBoard.Gameboard[index-1] === computer.sign){
+             screenboard.textContent = `It is ${user.name}'s(${user.sign}) turn`;
       
          }         
-  
-        }));
-  }       
+             announce();
+    }));
+  }     
         let announce = function () {
-            const diagonal = (box[0].textContent === box[4].textContent && box[4].textContent === box[8].textContent) || (box[2].textContent === box[4].textContent && box[4].textContent === box[6].textContent);
-            const horizontal = (box[0].textContent === box[1].textContent && box[1].textContent === box[2].textContent) || (box[3].textContent === box[4].textContent && box[4].textContent === box[5].textContent) || (box[6].textContent === box[7].textContent && box[7].textContent === box[8].textContent);
-            const vertical = (box[0].textContent === box[3].textContent && box[3].textContent === box[6].textContent) || (box[1].textContent === box[4].textContent && box[4].textContent === box[7].textContent) || (box[2].textContent === box[5].textContent && box[5].textContent === box[8].textContent);
+            const diagonal = (box[0].textContent === box[4].textContent && box[0].textContent === box[8].textContent) || (box[6].textContent === box[4].textContent && box[2].textContent === box[6].textContent);
+            const horizontal = (box[0].textContent === box[2].textContent && box[1].textContent === box[2].textContent) || (box[3].textContent === box[4].textContent && box[3].textContent === box[5].textContent) || (box[8].textContent === box[7].textContent && box[6].textContent === box[8].textContent);
+            const vertical = (box[6].textContent === box[3].textContent && box[0].textContent === box[6].textContent) || (box[1].textContent === box[4].textContent && box[1].textContent === box[7].textContent) || (box[2].textContent === box[5].textContent && box[2].textContent === box[8].textContent);
             if((diagonal || horizontal || vertical) && index >= 5){
-                alert('winner');
+                 winner = true;
             }
-        return {display}
+            if(winner){
+            
+            screenboard.textContent = '';    
+            const exit = document.createElement('div');
+            exit.setAttribute('id', 'exit');
+            const congrats = document.createElement('p');
+            congrats.classList.toggle('congrats');
+            if(gameBoard.Gameboard[index] === user.sign){
+             congrats.innerHTML = `Congratulations! ${computer.name}(${computer.sign}) has won.<br> Click any button below to continue`;
+             }
+             if(gameBoard.Gameboard[index] === computer.sign){
+             congrats.innerHTML = `Congratulations! ${user.name}(${user.sign}) has won.<br> Click any button below to continue`;
+            }
+            const restart = document.createElement('button');
+            restart.classList.toggle('restart');
+            const end = document.createElement('button');
+            end.classList.toggle('end');
+            restart.textContent = 'Restart';
+            end.textContent = 'Quit';
+            restart.addEventListener('click', () => {
+                window.location.reload();
+            });
+            end.addEventListener('click', () => {
+                window.close();
+            });
+            exit.appendChild(congrats);
+            exit.appendChild(restart);
+            exit.appendChild(end)
+            document.querySelector('main').appendChild(exit);
+            document.querySelector('section').classList.toggle('effect');          
+            }
+        }
+        return {display};
     })();
 })();        
