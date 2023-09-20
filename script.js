@@ -1,5 +1,5 @@
 const gamePlay = (function(){
-    alert("Click on the marker of your choice to start game");
+    setTimeout(alert("Click on the marker of your choice to start game"), 2000);
                                                       
    
     
@@ -84,12 +84,43 @@ const gamePlay = (function(){
     }));
   }     
         let announce = function () {
-            const diagonal = (box[0].textContent === box[4].textContent && box[0].textContent === box[8].textContent) || (box[6].textContent === box[4].textContent && box[2].textContent === box[6].textContent);
-            const horizontal = (box[0].textContent === box[2].textContent && box[1].textContent === box[2].textContent) || (box[3].textContent === box[4].textContent && box[3].textContent === box[5].textContent) || (box[8].textContent === box[7].textContent && box[6].textContent === box[8].textContent);
-            const vertical = (box[6].textContent === box[3].textContent && box[0].textContent === box[6].textContent) || (box[1].textContent === box[4].textContent && box[1].textContent === box[7].textContent) || (box[2].textContent === box[5].textContent && box[2].textContent === box[8].textContent);
+            const diagonal = (box[0].textContent === box[4].textContent && box[0].textContent === box[8].textContent) && (box[0].textContent !== "" && box[8].textContent !== "" && box[4].textContent !== "") || (box[6].textContent === box[4].textContent && box[2].textContent === box[6].textContent) && (box[2].textContent !== "" && box[6].textContent !== "" && box[4].textContent !== "");
+            const horizontal = (box[0].textContent === box[2].textContent && box[1].textContent === box[2].textContent) && (box[0].textContent !== "" && box[1].textContent !== "" && box[2].textContent !== "")|| (box[3].textContent === box[4].textContent && box[3].textContent === box[5].textContent) && (box[3].textContent !== "" && box[5].textContent !== "" && box[4].textContent !== "")|| (box[8].textContent === box[7].textContent && box[6].textContent === box[8].textContent) && (box[6].textContent !== "" && box[7].textContent !== "" && box[8].textContent !== "");
+            const vertical = (box[6].textContent === box[3].textContent && box[0].textContent === box[6].textContent) && (box[0].textContent !== "" && box[3].textContent !== "" && box[6].textContent !== "")|| (box[1].textContent === box[4].textContent && box[1].textContent === box[7].textContent) && (box[1].textContent !== "" && box[7].textContent !== "" && box[4].textContent !== "")|| (box[2].textContent === box[5].textContent && box[2].textContent === box[8].textContent) && (box[2].textContent !== "" && box[8].textContent !== "" && box[5].textContent !== "");
             if((diagonal || horizontal || vertical) && index >= 5){
                  winner = true;
             }
+            
+            if(index > 8){
+            screenboard.textContent = '';    
+            const exit = document.createElement('div');
+            exit.setAttribute('id', 'exit');
+            const congrats = document.createElement('p');
+            congrats.classList.toggle('congrats');
+             congrats.innerHTML = `It was a tie, Nobody won.<br> Click any button below to continue`;
+            const restart = document.createElement('button');
+            restart.classList.toggle('restart');
+            const end = document.createElement('button');
+            end.classList.toggle('end');
+            restart.textContent = 'Restart';
+            end.textContent = 'Quit';
+            restart.addEventListener('click', () => {
+                window.location.reload();
+            });
+            end.addEventListener('click', () => {
+                window.close();
+            });
+            exit.appendChild(congrats);
+            exit.appendChild(restart);
+            exit.appendChild(end)
+            document.querySelector('main').appendChild(exit);
+            document.querySelector('section').classList.toggle('effect');
+             gameBoard.Gameboard = '';
+            announce = function () {
+              history.go(0);
+        }          
+            }
+            
             if(winner){
             
             screenboard.textContent = '';    
@@ -119,9 +150,15 @@ const gamePlay = (function(){
             exit.appendChild(restart);
             exit.appendChild(end)
             document.querySelector('main').appendChild(exit);
-            document.querySelector('section').classList.toggle('effect');          
-            }
+            document.querySelector('section').classList.toggle('effect'); 
+            gameBoard.Gameboard = '';
+            announce = function () {
+              history.go(0);
+        }
+        }
         }
         return {display};
+    
     })();
+
 })();        
