@@ -92,7 +92,7 @@ const gamePlay = (function(){
             }
             
             if(index > 8){
-            screenboard.textContent = '';    
+            setTimeout(() => {screenboard.textContent = '';    
             const exit = document.createElement('div');
             exit.setAttribute('id', 'exit');
             const congrats = document.createElement('p');
@@ -118,13 +118,13 @@ const gamePlay = (function(){
              gameBoard.Gameboard = '';
             announce = function () {
               history.go(0);
-        }          
+        }   }, 500);
+                   
             }
             
             if(winner){
-            
-            screenboard.textContent = '';    
-            const exit = document.createElement('div');
+            screenboard.textContent = '';
+            setTimeout( () => {const exit = document.createElement('div');
             exit.setAttribute('id', 'exit');
             const congrats = document.createElement('p');
             congrats.classList.toggle('congrats');
@@ -154,7 +154,7 @@ const gamePlay = (function(){
             gameBoard.Gameboard = '';
             announce = function () {
               history.go(0);
-        }
+        }}, 500);    
         }
         }
         return {display};
