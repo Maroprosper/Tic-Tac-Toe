@@ -82,22 +82,16 @@ const gamePlay = (function(){
          }         
              announce();
     }));
-  }     
-        let announce = function () {
-            const diagonal = (box[0].textContent === box[4].textContent && box[0].textContent === box[8].textContent) && (box[0].textContent !== "" && box[8].textContent !== "" && box[4].textContent !== "") || (box[6].textContent === box[4].textContent && box[2].textContent === box[6].textContent) && (box[2].textContent !== "" && box[6].textContent !== "" && box[4].textContent !== "");
-            const horizontal = (box[0].textContent === box[2].textContent && box[1].textContent === box[2].textContent) && (box[0].textContent !== "" && box[1].textContent !== "" && box[2].textContent !== "")|| (box[3].textContent === box[4].textContent && box[3].textContent === box[5].textContent) && (box[3].textContent !== "" && box[5].textContent !== "" && box[4].textContent !== "")|| (box[8].textContent === box[7].textContent && box[6].textContent === box[8].textContent) && (box[6].textContent !== "" && box[7].textContent !== "" && box[8].textContent !== "");
-            const vertical = (box[6].textContent === box[3].textContent && box[0].textContent === box[6].textContent) && (box[0].textContent !== "" && box[3].textContent !== "" && box[6].textContent !== "")|| (box[1].textContent === box[4].textContent && box[1].textContent === box[7].textContent) && (box[1].textContent !== "" && box[7].textContent !== "" && box[4].textContent !== "")|| (box[2].textContent === box[5].textContent && box[2].textContent === box[8].textContent) && (box[2].textContent !== "" && box[8].textContent !== "" && box[5].textContent !== "");
-            if((diagonal || horizontal || vertical) && index >= 5){
-                 winner = true;
-            }
-            
-            if(index > 8){
+  }
+        
+        
+        const showPopUp = (word) => {
             setTimeout(() => {screenboard.textContent = '';    
             const exit = document.createElement('div');
             exit.setAttribute('id', 'exit');
             const congrats = document.createElement('p');
             congrats.classList.toggle('congrats');
-             congrats.innerHTML = `It was a tie, Nobody won.<br> Click any button below to continue`;
+             congrats.innerHTML = word;
             const restart = document.createElement('button');
             restart.classList.toggle('restart');
             const end = document.createElement('button');
@@ -119,42 +113,30 @@ const gamePlay = (function(){
             announce = function () {
               history.go(0);
         }   }, 500);
-                   
+        }     
+        
+        
+        let announce = function () {
+            const diagonal = (box[0].textContent === box[4].textContent && box[0].textContent === box[8].textContent) && (box[0].textContent !== "" && box[8].textContent !== "" && box[4].textContent !== "") || (box[6].textContent === box[4].textContent && box[2].textContent === box[6].textContent) && (box[2].textContent !== "" && box[6].textContent !== "" && box[4].textContent !== "");
+            const horizontal = (box[0].textContent === box[2].textContent && box[1].textContent === box[2].textContent) && (box[0].textContent !== "" && box[1].textContent !== "" && box[2].textContent !== "")|| (box[3].textContent === box[4].textContent && box[3].textContent === box[5].textContent) && (box[3].textContent !== "" && box[5].textContent !== "" && box[4].textContent !== "")|| (box[8].textContent === box[7].textContent && box[6].textContent === box[8].textContent) && (box[6].textContent !== "" && box[7].textContent !== "" && box[8].textContent !== "");
+            const vertical = (box[6].textContent === box[3].textContent && box[0].textContent === box[6].textContent) && (box[0].textContent !== "" && box[3].textContent !== "" && box[6].textContent !== "")|| (box[1].textContent === box[4].textContent && box[1].textContent === box[7].textContent) && (box[1].textContent !== "" && box[7].textContent !== "" && box[4].textContent !== "")|| (box[2].textContent === box[5].textContent && box[2].textContent === box[8].textContent) && (box[2].textContent !== "" && box[8].textContent !== "" && box[5].textContent !== "");
+            if((diagonal || horizontal || vertical) && index >= 5){
+                 winner = true;
+            }
+            let word = '';
+            if(index > 8){
+                word = `It was a tie, Nobody won.<br> Click any button below to continue`
+                showPopUp(word);
             }
             
             if(winner){
-            screenboard.textContent = '';
-            setTimeout( () => {const exit = document.createElement('div');
-            exit.setAttribute('id', 'exit');
-            const congrats = document.createElement('p');
-            congrats.classList.toggle('congrats');
             if(gameBoard.Gameboard[index] === user.sign){
-             congrats.innerHTML = `Congratulations! ${computer.name}(${computer.sign}) has won.<br> Click any button below to continue`;
+                word = `Congratulations! ${computer.name}(${computer.sign}) has won.<br> Click any button below to continue`;
              }
              if(gameBoard.Gameboard[index] === computer.sign){
-             congrats.innerHTML = `Congratulations! ${user.name}(${user.sign}) has won.<br> Click any button below to continue`;
+                word  = `Congratulations! ${user.name}(${user.sign}) has won.<br> Click any button below to continue`;
             }
-            const restart = document.createElement('button');
-            restart.classList.toggle('restart');
-            const end = document.createElement('button');
-            end.classList.toggle('end');
-            restart.textContent = 'Restart';
-            end.textContent = 'Quit';
-            restart.addEventListener('click', () => {
-                window.location.reload();
-            });
-            end.addEventListener('click', () => {
-                window.close();
-            });
-            exit.appendChild(congrats);
-            exit.appendChild(restart);
-            exit.appendChild(end)
-            document.querySelector('main').appendChild(exit);
-            document.querySelector('section').classList.toggle('effect'); 
-            gameBoard.Gameboard = '';
-            announce = function () {
-              history.go(0);
-        }}, 500);    
+            showPopUp(word);
         }
         }
         return {display};
