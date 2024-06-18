@@ -124,7 +124,7 @@ const gamePlay = (function(){
                  winner = true;
             }
             let word = '';
-            if(index > 8){
+            if(index > 8 && !winner){
                 word = `It was a tie, Nobody won.<br> Click any button below to continue`
                 showPopUp(word);
             }
